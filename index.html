@@ -1,10 +1,287 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-<title>Consultation médicale</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protocole clinique</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: #eef4f3;
+      color: #1f2933;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 18px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 440px;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.14);
+      overflow: hidden;
+    }
+
+    .header {
+      background: #0f766e;
+      color: white;
+      padding: 24px;
+    }
+
+    .header small {
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.85;
+      font-size: 12px;
+    }
+
+    h1 {
+      margin: 10px 0 4px;
+      font-size: 27px;
+    }
+
+    .content {
+      padding: 24px;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .hidden { display: none; }
+
+    .tag {
+      display: inline-block;
+      background: #ecfeff;
+      color: #0f766e;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .box {
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 18px;
+      padding: 16px;
+      margin: 16px 0;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 13px 17px;
+      margin: 7px 5px 0 0;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.03);
+    }
+
+    .primary {
+      background: #0f766e;
+      color: white;
+    }
+
+    .secondary {
+      background: #e5e7eb;
+      color: #1f2933;
+    }
+
+    .progress {
+      width: 100%;
+      height: 9px;
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 18px 0;
+    }
+
+    .bar {
+      height: 100%;
+      width: 20%;
+      background: #0f766e;
+      transition: 0.5s;
+    }
+
+    .line {
+      opacity: 0;
+      transform: translateY(8px);
+      animation: appear 0.45s forwards;
+      margin: 11px 0;
+    }
+
+    .line:nth-child(2) { animation-delay: 0.25s; }
+    .line:nth-child(3) { animation-delay: 0.5s; }
+    .line:nth-child(4) { animation-delay: 0.75s; }
+
+    @keyframes appear {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .question {
+      border: 2px solid #0f766e;
+      border-radius: 20px;
+      padding: 18px;
+      background: #f0fdfa;
+      margin-top: 16px;
+    }
+
+    .small {
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    .final {
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    .emoji {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
+
 <body>
-<h1>Salut Dre Alix 🩺</h1>
-<p>J'ai une question très importante à te poser...</p>
+  <div class="card">
+    <div class="header">
+      <small>Protocole confidentiel</small>
+      <h1>Dossier clinique #AD-2026</h1>
+      <p>Destinataire : Dre Damours</p>
+    </div>
+
+    <div class="content">
+      <div class="progress">
+        <div class="bar" id="bar"></div>
+      </div>
+
+      <div id="step1">
+        <span class="tag">Identification</span>
+        <p>Avant de poursuivre, veuillez confirmer que vous êtes bien la personne concernée par ce dossier.</p>
+
+        <button class="primary" onclick="nextStep(2)">Je suis Dre Damours</button>
+        <button class="secondary" onclick="fake()">Mauvaise personne</button>
+
+        <p id="fakeText" class="small hidden">
+          Accès refusé. Ce dossier est trop spécifique pour être consulté par quelqu’un d’autre.
+        </p>
+      </div>
+
+      <div id="step2" class="hidden">
+        <span class="tag">Observations</span>
+        <p>Plusieurs données ont été recueillies chez le sujet Flo.</p>
+
+        <div class="box">
+          <p class="line">⚠️ Légère jalousie observée lors des discussions concernant Cam.</p>
+          <p class="line">🧢 Réaction positive inhabituelle observée lors du port d'une toque au dek.</p>
+          <p class="line">👩‍🍳 Tendance à fondre lorsqu'elle essaye en cuisine.</p>
+          <p class="line">📝 Niveau d'impression élevé lorsqu'elle remplit des tableaux blancs.</p>
+        </div>
+
+        <button class="primary" onclick="nextStep(3)">Continuer l'analyse</button>
+      </div>
+
+      <div id="step3" class="hidden">
+        <span class="tag">Diagnostic</span>
+
+        <div class="box">
+          <p>
+            Après analyse, plusieurs indicateurs suggèrent que le sujet Flo aimerait
+            passer du temps avec la Dre Damours dans un contexte moins clinique.
+          </p>
+        </div>
+
+        <p class="small">
+          Niveau d’urgence : modéré. Niveau d’assumage requis : acceptable.
+        </p>
+
+        <button class="primary" onclick="nextStep(4)">Voir le traitement recommandé</button>
+      </div>
+
+      <div id="step4" class="hidden">
+        <span class="tag">Traitement recommandé</span>
+
+        <div class="question">
+          <p><strong>Traitement proposé :</strong></p>
+          <p>Dire oui à aller prendre un verre avec Flo.</p>
+
+          <p><strong>Mode d’administration :</strong></p>
+          <p>Un verre, une date, pas de pression, juste voir la vibe.</p>
+
+          <p><strong>Effets secondaires possibles :</strong></p>
+          <p>Rires, taquineries, discussions trop longues, envie de recommencer.</p>
+        </div>
+
+        <p><strong>Décision de la Dre Damours :</strong></p>
+
+        <button class="primary" onclick="yes()">J’accepte le traitement</button>
+        <button class="secondary" onclick="maybe()">Je dois vérifier mon horaire</button>
+      </div>
+
+      <div id="final" class="hidden final">
+        <div class="emoji" id="finalEmoji"></div>
+        <h2 id="finalTitle"></h2>
+        <p id="finalText"></p>
+        <p class="small">Dossier signé : Flo</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function hideAll() {
+      document.getElementById("step1").classList.add("hidden");
+      document.getElementById("step2").classList.add("hidden");
+      document.getElementById("step3").classList.add("hidden");
+      document.getElementById("step4").classList.add("hidden");
+      document.getElementById("final").classList.add("hidden");
+    }
+
+    function nextStep(step) {
+      hideAll();
+      document.getElementById("step" + step).classList.remove("hidden");
+      document.getElementById("bar").style.width = (step * 25) + "%";
+    }
+
+    function fake() {
+      document.getElementById("fakeText").classList.remove("hidden");
+    }
+
+    function yes() {
+      hideAll();
+      document.getElementById("final").classList.remove("hidden");
+      document.getElementById("bar").style.width = "100%";
+      document.getElementById("finalEmoji").innerText = "🍷";
+      document.getElementById("finalTitle").innerText = "Traitement accepté.";
+      document.getElementById("finalText").innerText =
+        "Parfait. Flo peut maintenant officiellement proposer une date, une heure et un endroit pour aller prendre un verre.";
+    }
+
+    function maybe() {
+      hideAll();
+      document.getElementById("final").classList.remove("hidden");
+      document.getElementById("bar").style.width = "100%";
+      document.getElementById("finalEmoji").innerText = "📅";
+      document.getElementById("finalTitle").innerText = "Horaire médical détecté.";
+      document.getElementById("finalText").innerText =
+        "Réponse acceptée. Le traitement peut être administré dès qu’une plage horaire réaliste apparaît.";
+    }
+  </script>
 </body>
 </html>
